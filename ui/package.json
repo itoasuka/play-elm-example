@@ -1,0 +1,40 @@
+{
+  "name": "play-elm-example-ui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf ../public/javascripts/main.js*",
+    "dev": "cross-env NODE_ENV=development webpack serve --port 3000",
+    "analyse": "elm-analyse -s -p 3001 -o",
+    "build": "cross-env NODE_ENV=production webpack",
+    "test": "elm-test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "babel-loader": "^8.2.3",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.5.1",
+    "elm": "^0.19.1-5",
+    "elm-analyse": "^0.16.5",
+    "elm-format": "^0.8.5",
+    "elm-hot-webpack-loader": "^1.1.8",
+    "elm-test": "^0.19.1-revision7",
+    "elm-webpack-loader": "^8.0.0",
+    "fibers": "^5.0.0",
+    "rimraf": "^3.0.2",
+    "sass": "^1.44.0",
+    "sass-loader": "^12.4.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.6.0",
+    "webpack-merge": "^5.8.0"
+  },
+  "dependencies": {
+    "normalize.css": "^8.0.1"
+  }
+}

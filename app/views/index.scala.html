@@ -1,5 +1,21 @@
-@()
+@(mode: play.api.Mode, flagsJsonStr: String)
 
-@main("Welcome to Play") {
-  <h1>Welcome to Play!</h1>
-}
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>読込中</title>
+    <script>
+      window.flags = @Html(flagsJsonStr)
+    </script>
+  </head>
+  <body>
+    @if(mode == play.api.Mode.Dev) {
+      @* 開発モード時は webpack-dev-server から取得する *@
+      <script src="/assets/javascripts/main.js"></script>
+    } else {
+      <script src="@controllers.routes.Assets.versioned("javascripts/main.js")"></script>
+    }
+  </body>
+</html>
