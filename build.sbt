@@ -57,7 +57,7 @@ scriptClasspath := {
   val manifest = new java.util.jar.Manifest()
   manifest.getMainAttributes.putValue("Class-Path", originalClasspath.mkString(" "))
   val classpathJar = (Universal / target).value / "lib" / "classpath.jar"
-  IO.jar(Seq.empty, classpathJar, manifest, None)
+  IO.jar(Seq.empty, classpathJar, manifest)
   Seq(classpathJar.getName)
 }
 Universal / mappings += (((Universal / target).value / "lib" / "classpath.jar") -> "lib/classpath.jar")
