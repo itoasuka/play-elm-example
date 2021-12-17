@@ -1,4 +1,4 @@
-module Main exposing (main)
+module Main exposing (Model, Msg, main)
 
 import Assets exposing (Assets, assetsDecoder, emptyAssets)
 import Browser exposing (Document, UrlRequest)
@@ -86,6 +86,7 @@ update msg model =
 
                 Err error ->
                     let
+                        errorMessage : String
                         errorMessage =
                             case error of
                                 Http.BadUrl string ->

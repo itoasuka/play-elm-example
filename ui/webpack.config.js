@@ -1,8 +1,10 @@
-const path = require('path')
-const webpack = require('webpack')
-const {merge} = require('webpack-merge')
+const path = require('path');
+const webpack = require('webpack');
+const { merge } = require('webpack-merge');
+const sass = require('sass');
+const fiber = require('fibers');
 
-const mode = process.env.NODE_ENV
+const mode = process.env.NODE_ENV;
 
 /**
  * Webpack 用 Sass ローダーの設定
@@ -10,13 +12,13 @@ const mode = process.env.NODE_ENV
 const sassLoader = {
   loader: 'sass-loader',
   options: {
-    implementation: require('sass'),
+    implementation: sass,
     sassOptions: {
-      fiber: require('fibers')
+      fiber,
     },
-    sourceMap: true
-  }
-}
+    sourceMap: true,
+  },
+};
 
 /**
  * 共通設定
@@ -28,7 +30,7 @@ const common = {
     // ビルド成果物は Play Framework の管轄下へ配置
     path: path.resolve(__dirname, '../public/javascripts'),
     // アセットの公開パスは Play Framework に合わせる
-    publicPath: '/assets/javascripts'
+    publicPath: '/assets/javascripts',
   },
   module: {
     rules: [
@@ -39,9 +41,9 @@ const common = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [['@babel/preset-env', {targets: 'defaults'}]]
-          }
-        }
+            presets: [['@babel/preset-env', { targets: 'defaults' }]],
+          },
+        },
       },
       // CSS モジュールのローダーの設定
       {
@@ -52,29 +54,30 @@ const common = {
             loader: 'css-loader',
             options: {
               modules: {
-                localIdentName: '[name]__[local]'
-              }
-            }
+                localIdentName: '[name]__[local]',
+              },
+            },
           },
-          sassLoader
-        ]
+          sassLoader,
+        ],
       },
       // グローバルな CSS のローダーの設定
       {
         test: /^((?!\.module).)+\.s?css$/i,
-        use: ['style-loader', 'css-loader', sassLoader]
-      }
-    ]
-  }
-}
+        use: ['style-loader', 'css-loader', sassLoader],
+      },
+    ],
+  },
+};
 
 if (mode === 'development') {
   /* 開発モード時 */
-  console.log('building for development...')
+  // eslint-disable-next-line no-console
+  console.log('building for development...');
   module.exports = merge(common, {
     plugins: [
       // ビルドエラーが発生しても Webpack が終了しないようにするプラグイン
-      new webpack.NoEmitOnErrorsPlugin()
+      new webpack.NoEmitOnErrorsPlugin(),
     ],
     module: {
       rules: [
@@ -83,17 +86,17 @@ if (mode === 'development') {
           test: /\.elm$/,
           exclude: [/elm-stuff/, /node_modules/],
           use: [
-            {loader: 'elm-hot-webpack-loader'},
+            { loader: 'elm-hot-webpack-loader' },
             {
               loader: 'elm-webpack-loader',
               options: {
                 // 開発モードなのでデバッグ機能を有効にする
-                debug: true
-              }
-            }
-          ]
-        }
-      ]
+                debug: true,
+              },
+            },
+          ],
+        },
+      ],
     },
     devtool: 'source-map',
     // dev-server （開発サーバ）の設定
@@ -102,14 +105,15 @@ if (mode === 'development') {
       // サーバサイドは Play Framework が受け持つので全リクエストを proxy で Play Framework に流す
       proxy: {
         '/': {
-          target: 'http://localhost:9000/'
-        }
-      }
-    }
-  })
+          target: 'http://localhost:9000/',
+        },
+      },
+    },
+  });
 } else if (mode === 'production') {
   /* 製品モード時 */
-  console.log('Building for production...')
+  // eslint-disable-next-line no-console
+  console.log('Building for production...');
   module.exports = merge(common, {
     module: {
       rules: [
@@ -122,12 +126,12 @@ if (mode === 'development') {
               loader: 'elm-webpack-loader',
               options: {
                 // 製品モードなので最適化を有効にする
-                optimize: true
-              }
-            }
-          ]
-        }
-      ]
-    }
-  })
+                optimize: true,
+              },
+            },
+          ],
+        },
+      ],
+    },
+  });
 }

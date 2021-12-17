@@ -1,4 +1,4 @@
-module Assets exposing (Assets, assetsDecoder, emptyAssets)
+module Assets exposing (Assets, Images, assetsDecoder, emptyAssets)
 
 import Json.Decode as D
 

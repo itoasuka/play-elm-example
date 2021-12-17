@@ -1,6 +1,6 @@
-require('normalize.css')
-require('./global.scss')
+require('normalize.css');
+require('./global.scss');
 
-const { Elm } = require('./Main.elm')
+const { Elm } = require('./Main.elm');
 
-Elm.Main.init({ flags: global.flags })
+Elm.Main.init({ flags: global.flags });
